@@ -1,0 +1,24 @@
+@use "./mixins" as m;
+@use "./variables" as v;
+
+.App {
+  @include m.row();
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: v.$background-gray;
+}
+
+.Container {
+  height: 700px;
+  width: 400px;
+  background-color: white;
+}
+
+@media screen and (max-width: 425px) {
+  .Container {
+    width: 100%;
+    height: 100%;
+  }
+}

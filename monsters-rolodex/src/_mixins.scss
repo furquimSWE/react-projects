@@ -1,0 +1,17 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@mixin defaultMargin {
+  margin: 8px 16px 0px 16px;
+}

@@ -1,0 +1,27 @@
+@use "../../mixins" as m;
+@use "../../variables" as v;
+
+.modal--container {
+  height: calc(100vh / 3);
+  width: calc(100% - 2em);
+
+  border-radius: 0.5em;
+
+  border: 1px solid black;
+
+  .header {
+    @include m.row();
+    justify-content: space-between;
+    align-items: flex-start;
+
+    height: 50px;
+    width: calc(100% - 2em);
+
+    padding: 1em 1em;
+
+    .close-icon {
+      font-size: 2em;
+      color: v.$blue;
+    }
+  }
+}

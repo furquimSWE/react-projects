@@ -1,0 +1,9 @@
+.flow-container {
+  /* Height equals to 100% of height - (128px (64px for each header) + 32px (16px for each margin) */
+  height: calc(100% - (128px + 32px));
+  width: 100%;
+
+  margin-top: 16px;
+
+  overflow-y: scroll;
+}
