@@ -1,0 +1,144 @@
+@use "../../_mixins" as m;
+@use "../../_variables" as v;
+
+.hide {
+  display: none;
+}
+
+.personal-data-container {
+  height: 100%;
+  width: 100%;
+
+  font-size: 16px;
+
+  @include m.column();
+
+  .step {
+    width: 100%;
+    margin-top: 32px;
+
+    .input {
+      @include m.column();
+
+      margin: 0px 16px 0px 16px;
+
+      .error-message {
+        height: 16px;
+        margin: 4px 0px 16px 0px;
+
+        color: v.$error-red;
+        font-size: 0.75em;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.vehicle-data-container {
+  height: 100%;
+  width: 100%;
+
+  @include m.column();
+
+  font-size: 16px;
+
+  .form {
+    width: 100%;
+    margin-top: 32px;
+
+    .input-carprice {
+      @include m.column();
+      width: 100%;
+      margin: 0px 16px 16px 16px;
+
+      .input-row {
+        @include m.row();
+        width: 100%;
+        margin: 0px 16px 4px 0px;
+
+        .border--error {
+          border-bottom: 2px solid v.$error-red;
+        }
+
+        .sign {
+          color: v.$light-gray;
+          margin-right: 16px;
+          margin-top: 6px;
+          padding-bottom: 6px;
+          border-bottom: 1px solid v.$light-gray;
+
+          font-size: 2em;
+          font-weight: 600;
+        }
+
+        .input {
+          width: 50%;
+        }
+      }
+    }
+
+    .error-message {
+      height: 16px;
+      color: v.$error-red;
+      font-size: 0.75em;
+      font-weight: 600;
+    }
+
+    .radio-buttons {
+      @include m.defaultMargin();
+    }
+  }
+
+  .select-wrapper {
+    margin: 0px 16px 48px 16px;
+    width: 90%;
+  }
+
+  .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
+    @include m.row();
+    font-size: 1.25em;
+  }
+}
+
+.result-data-container {
+  height: 100%;
+  width: 100%;
+
+  @include m.column();
+
+  font-size: 16px;
+
+  .modal-container {
+    @include m.row();
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+  }
+
+  .info {
+    @include m.row();
+    @include m.defaultMargin();
+
+    .info-pill {
+      padding: 0.5em 1.5em;
+      margin-right: 1em;
+      background-color: v.$gray;
+      border-radius: 2em;
+
+      font-size: 0.75em;
+      font-weight: 600;
+      color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .flow-pd--container {
+    font-size: 14px;
+  }
+
+  .flow-vd--container {
+    font-size: 14px;
+  }
+}

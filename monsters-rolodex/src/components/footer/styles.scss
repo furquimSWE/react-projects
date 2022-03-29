@@ -1,0 +1,52 @@
+@use "../../mixins" as m;
+@use "../../_variables" as v;
+
+.footer {
+  @include m.column();
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  margin-top: auto;
+
+  .legal-terms {
+    margin: 1em 2em;
+    font-size: 0.625em;
+    color: v.$light-gray;
+
+    text-align: justify;
+    line-height: 1.25em;
+
+    a {
+      color: v.$blue;
+      text-decoration: none;
+    }
+  }
+
+  .divider {
+    width: 90%;
+    border-bottom: 1px solid v.$light-gray;
+  }
+
+  .actions {
+    @include m.row();
+    width: 100%;
+
+    margin: 1em auto 0em auto;
+    justify-content: flex-end;
+
+    .backward {
+      margin-right: auto;
+      margin-left: 1em;
+      &.hide {
+        display: none;
+      }
+    }
+
+    .forward {
+      margin-left: auto;
+      margin-right: 1em;
+    }
+  }
+}

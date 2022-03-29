@@ -1,0 +1,30 @@
+@use "../../_mixins" as m;
+@use "../../_variables" as v;
+
+.container {
+  @include m.column();
+
+  width: 100%;
+  height: auto;
+
+  font-size: 16px;
+
+  .title {
+    @include m.defaultMargin();
+
+    margin-top: 16px;
+
+    color: v.$gray;
+    font-size: 1.25em;
+    font-weight: 600;
+    text-align: start;
+  }
+
+  .subtitle {
+    @include m.defaultMargin();
+
+    color: v.$light-gray;
+    font-size: 1em;
+    font-weight: 400;
+  }
+}

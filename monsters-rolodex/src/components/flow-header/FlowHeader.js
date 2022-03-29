@@ -16,18 +16,12 @@ export class FlowHeader extends Component {
       totalSteps: flow.totalSteps,
       steps: flow.steps,
     };
-
-    console.log(this.state.steps);
   }
 
   componentDidMount() {
     store.subscribe(() => {
       let { flow } = store.getState();
-      this.setState(() => {
-        return {
-          ...flow,
-        };
-      });
+      this.setState({...flow});
     });
   }
 
@@ -45,6 +39,7 @@ export class FlowHeader extends Component {
                 icon={step.icon}
                 label={step.label}
                 header
+                key={`header-pill-${index}`}
               />
             );
           })}

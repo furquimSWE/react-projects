@@ -4,12 +4,12 @@ import InputMask from "react-input-mask";
 import { isEqual } from "lodash";
 
 import "./styles.scss";
-import { Button } from "../button/Button";
 
 import { validations } from "../../helpers/validation";
 
 import { store } from "../../store/index";
-import { FooterActions } from "../footer-actions/FooterActions";
+import { Footer } from "../../components/footer/Footer";
+import { Title } from "../../components/title/Title";
 
 const FLOW_KEY = "personalData";
 
@@ -27,7 +27,7 @@ const labelProps = {
   },
 };
 
-export class FlowPersonalData extends Component {
+export class PersonalData extends Component {
   constructor() {
     super();
 
@@ -35,7 +35,7 @@ export class FlowPersonalData extends Component {
 
     this.state = {
       outerStep: flow.currentStep,
-      step: 1,
+      step: flow.lastStep ? 2 : 1,
       totalSteps: 2,
       formData: Object.assign({}, flow[FLOW_KEY]),
       valid: false,
@@ -130,7 +130,7 @@ export class FlowPersonalData extends Component {
     // validar outer step
   }
 
-  saveFlowStepData() {
+  updateFormData() {
     store.dispatch({
       type: "flow/updateFormData",
       payload: {
@@ -140,25 +140,16 @@ export class FlowPersonalData extends Component {
     });
   }
 
-  nextFlowStep() {
-    store.dispatch({ type: "flow/advance" });
-  }
-
-  previousFlowStep() {
-    store.dispatch({ type: "flow/back" });
-  }
-
   render() {
     return (
-      <div className="flow-pd--container">
-        <div className="flow--title">Conte-nos um pouco sobre você</div>
-        <div className="flow--subtitle">Preencha todos os campos abaixo</div>
-        <div
-          className={`flow--form-step ${this.state.step !== 1 ? "hide" : ""}`}
-        >
-          <div className="flow-form--input">
+      <div className="personal-data-container">
+        <Title
+          title="Conte-nos um pouco sobre você"
+          subtitle="Preencha todos os campos abaixo"
+        />
+        <div className={`step ${this.state.step !== 1 ? "hide" : ""}`}>
+          <div className="input">
             <TextField
-              id="standard-basic"
               label="Qual seu nome completo?"
               variant="standard"
               fullWidth
@@ -168,7 +159,7 @@ export class FlowPersonalData extends Component {
               onChange={(e) => this.changeValue("fullName", e.target)}
               error={this.state.validations["fullName"] !== true}
             />
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${
                   this.state.validations["fullName"] ? "hide" : "show"
@@ -179,7 +170,7 @@ export class FlowPersonalData extends Component {
             </div>
           </div>
 
-          <div className="flow-form--input">
+          <div className="input">
             <InputMask
               mask="999.999.999-99"
               maskChar=""
@@ -200,7 +191,7 @@ export class FlowPersonalData extends Component {
                 />
               )}
             </InputMask>
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${this.state.validations["cpf"] ? "hide" : "show"}`}
               >
@@ -209,12 +200,9 @@ export class FlowPersonalData extends Component {
             </div>
           </div>
         </div>
-        <div
-          className={`flow--form-step ${this.state.step !== 2 ? "hide" : ""}`}
-        >
-          <div className="flow-form--input">
+        <div className={`step ${this.state.step !== 2 ? "hide" : ""}`}>
+          <div className="input">
             <TextField
-              id="standard-basic"
               label="Qual seu e-mail?"
               variant="standard"
               fullWidth
@@ -224,7 +212,7 @@ export class FlowPersonalData extends Component {
               onChange={(e) => this.changeValue("email", e.target)}
               error={this.state.validations["email"] !== true}
             />
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${
                   this.state.validations["email"] ? "hide" : "show"
@@ -234,7 +222,7 @@ export class FlowPersonalData extends Component {
               </span>
             </div>
           </div>
-          <div className="flow-form--input">
+          <div className="input">
             <InputMask
               mask="99/99/9999"
               maskChar=""
@@ -255,7 +243,7 @@ export class FlowPersonalData extends Component {
                 />
               )}
             </InputMask>
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${
                   this.state.validations["birthDate"] ? "hide" : "show"
@@ -265,7 +253,7 @@ export class FlowPersonalData extends Component {
               </span>
             </div>
           </div>
-          <div className="flow-form--input">
+          <div className="input">
             <InputMask
               mask="(99) 99999-9999"
               maskChar=""
@@ -286,7 +274,7 @@ export class FlowPersonalData extends Component {
                 />
               )}
             </InputMask>
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${
                   this.state.validations["phone"] ? "hide" : "show"
@@ -297,20 +285,20 @@ export class FlowPersonalData extends Component {
             </div>
           </div>
         </div>
-        <div className="flow--legal-terms">
-          Ao clicar no botão abaixo você autoriza a coleta e envio dos dados
-          para os bancos parceiros, conforme nossos{" "}
-          <a href="www.icarros.com.br">
-            Termos de uso e Políticas de privacidade.
-          </a>
-        </div>
-        <div className="divider--container-personal">
-          <span className="divider"></span>
-        </div>
-        <FooterActions
+        <Footer
           instance={this}
           valid={this.state.valid}
           step={this.state.step}
+          stepKey={FLOW_KEY}
+          legalTerms={
+            <div>
+              Ao clicar no botão abaixo você autoriza a coleta e envio dos dados
+              para os bancos parceiros, conforme nossos{" "}
+              <a href="www.icarros.com.br">
+                Termos de uso e Políticas de privacidade.
+              </a>
+            </div>
+          }
         />
       </div>
     );

@@ -5,14 +5,17 @@ import { FaCalculator, FaCar, FaRegUser } from "react-icons/fa";
 export const flow = createSlice({
   name: "flow",
   initialState: {
-    currentStep: 3,
+    currentStep: 2,
     totalSteps: 3,
-    personalData: {},
-    vehicleData: {
-      carPrice: '',
-      installments: '',
-      timeSpan: ''
+    lastStep: false,
+    personalData: {
+      fullName: "",
+      cpf: "",
+      email: "",
+      birthDate: "",
+      phone: "",
     },
+    vehicleData: { carPrice: "", installments: "", timeSpan: "" },
     resultData: {},
     steps: [
       {
@@ -34,6 +37,7 @@ export const flow = createSlice({
       if (state.currentStep + 1 <= state.totalSteps) {
         return {
           ...state,
+          lastStep: false,
           currentStep: state.currentStep + 1,
         };
       } else {
@@ -44,6 +48,7 @@ export const flow = createSlice({
       if (state.currentStep - 1 >= 1) {
         return {
           ...state,
+          lastStep: true,
           currentStep: state.currentStep - 1,
         };
       } else {

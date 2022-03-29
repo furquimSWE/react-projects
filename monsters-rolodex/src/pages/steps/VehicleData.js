@@ -14,8 +14,9 @@ import { isEqual } from "lodash";
 
 import "./styles.scss";
 
-import { FooterActions } from "../footer-actions/FooterActions";
-import { NumberFormatCustom } from "../money-input/MoneyInput.js";
+import { Title } from "../../components/title/Title";
+import { Footer } from "../../components/footer/Footer";
+import { NumberFormatCustom } from "../../components/money-input/MoneyInput.js";
 import { validations } from "../../helpers/validation";
 import { store } from "../../store/index";
 
@@ -46,17 +47,21 @@ const titles = {
   },
 };
 
-export class FlowVehicleData extends Component {
+export class VehicleData extends Component {
   constructor() {
     super();
 
-    let { flow } = store.getState();
+    const { flow } = store.getState();
+
+    const step = flow.lastStep ? 2 : 1;
+
+    const { title, subtitle } = this.getStepTitle(step);
 
     this.state = {
-      title: titles[1].title,
-      subtitle: titles[1].subtitle,
+      title,
+      subtitle,
       outerStep: flow.currentStep,
-      step: 1,
+      step,
       totalSteps: 2,
       formData: Object.assign({}, flow[FLOW_KEY]),
       valid: false,
@@ -78,10 +83,13 @@ export class FlowVehicleData extends Component {
     this.unsubscribe();
   }
 
-  // Previne o usuário de digitar zeros a esquerda
+  getStepTitle(step) {
+    return titles[step];
+  }
+
+  // Previne digitação de zeros a esquerda
   formatPriceValue(value) {
     if (value[0] === "0") {
-      console.log(typeof value, value);
       value = value.split("");
       value.shift();
       value = value.join("");
@@ -90,12 +98,9 @@ export class FlowVehicleData extends Component {
   }
 
   changeValue(key, { value }) {
-    console.log(key, value);
     this.setState(
       () => {
-        // Só trata o input se for no campo de preço do veículo
         if (key === "carPrice") value = this.formatPriceValue(value);
-
         return (this.state.formData[key] = value);
       },
       () => {
@@ -156,45 +161,17 @@ export class FlowVehicleData extends Component {
     });
   }
 
-  validateFlow() {
-    // validar outer step
-  }
-
-  isAdvanceDisabled() {
-    return false;
-  }
-
-  saveFlowStepData() {
-    store.dispatch({
-      type: "flow/updateFormData",
-      payload: {
-        key: FLOW_KEY,
-        formData: this.state.formData,
-      },
-    });
-  }
-
-  nextFlowStep() {
-    store.dispatch({ type: "flow/advance" });
-  }
-
-  previousFlowStep() {
-    store.dispatch({ type: "flow/back" });
-  }
-
   render() {
+    const { title, subtitle } = this.getStepTitle(this.state.step);
     return (
-      <div className="flow-vd--container">
-        <div className="flow--title">{this.state.title}</div>
-        <div className="flow--subtitle">{this.state.subtitle}</div>
-        <div
-          className={`flow--form ${this.state.step === 1 ? "show" : "hide"}`}
-        >
-          <div className="flow-form--input-carprice">
+      <div className="vehicle-data-container">
+        <Title title={title} subtitle={subtitle} />
+        <div className={`form ${this.state.step === 1 ? "show" : "hide"}`}>
+          <div className="input-carprice">
             <InputLabel>Qual o valor total?</InputLabel>
-            <div className="flow-form--input-row">
+            <div className="input-row">
               <span
-                className={`flow-form--input-sign ${
+                className={`sign ${
                   this.state.validations["carPrice"] !== true
                     ? "border--error"
                     : ""
@@ -202,7 +179,7 @@ export class FlowVehicleData extends Component {
               >
                 R$
               </span>
-              <div className="flow-form--input-textfield">
+              <div className="input">
                 <TextField
                   value={this.state.formData.carPrice}
                   onChange={(e) => this.changeValue("carPrice", e.target)}
@@ -219,7 +196,7 @@ export class FlowVehicleData extends Component {
                 />
               </div>
             </div>
-            <div className="flow-form--error-message">
+            <div className="error-message">
               <span
                 className={`${
                   this.state.validations["carPrice"] ? "hide" : "show"
@@ -229,7 +206,7 @@ export class FlowVehicleData extends Component {
               </span>
             </div>
           </div>
-          <FormControl variant="standard" className="flow-form--select-wrapper">
+          <FormControl variant="standard" className="select-wrapper">
             <InputLabel
               id="installments--label"
               sx={{
@@ -274,10 +251,8 @@ export class FlowVehicleData extends Component {
             </Select>
           </FormControl>
         </div>
-        <div
-          className={`flow--form ${this.state.step === 1 ? "hide" : "show"}`}
-        >
-          <div className="flow-form--radio-buttons">
+        <div className={`form ${this.state.step === 1 ? "hide" : "show"}`}>
+          <div className="radio-buttons">
             <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -310,13 +285,7 @@ export class FlowVehicleData extends Component {
             </FormControl>
           </div>
         </div>
-        <div className="divider--container">
-          <span className="divider"></span>
-        </div>
-        <FooterActions
-          valid={this.state.valid}
-          instance={this}
-        />
+        <Footer instance={this} valid={this.state.valid} stepKey={FLOW_KEY} />
       </div>
     );
   }

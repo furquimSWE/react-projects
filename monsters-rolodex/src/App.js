@@ -1,19 +1,16 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import './App.scss';
-import { Header } from './components/header/Header';
-import { FlowHeader } from './components/flow-header/FlowHeader';
-import { FlowContainer } from './components/flow-container/FlowContainer';
+import "./App.scss";
+import { Header } from "./components/header/Header";
+import { Container } from "./components/container/Container";
 
-
-class App extends Component { 
+class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="Container">
           <Header />
-          <FlowHeader />
-          <FlowContainer />
+          <Container />
         </div>
       </div>
     );

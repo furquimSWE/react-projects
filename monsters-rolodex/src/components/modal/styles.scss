@@ -2,12 +2,12 @@
 @use "../../variables" as v;
 
 .modal--container {
+  @include m.column();
+
   height: calc(100vh / 3);
   width: calc(100% - 2em);
 
   border-radius: 0.5em;
-
-  border: 1px solid black;
 
   .header {
     @include m.row();
@@ -22,6 +22,34 @@
     .close-icon {
       font-size: 2em;
       color: v.$blue;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
+  }
+
+  .title {
+    margin: 1em;
+
+    font-size: 1.25em;
+    color: v.$gray;
+  }
+
+  .message {
+    margin: 1em;
+
+    font-size: 1em;
+    color: v.$gray;
+  }
+
+  .actions {
+    @include m.row();
+    justify-content: flex-start;
+
+    width: 100%;
+
+    margin: auto 1em 1em 1em;
+    margin-top: auto;
   }
 }
